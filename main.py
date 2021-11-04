@@ -6,7 +6,8 @@
 
 from stockfish import Stockfish
 
-stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
+# stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
+stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
 
 print(stockfish.get_board_visual())
 move = str(input("User move, reset, quit:"))
