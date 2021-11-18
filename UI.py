@@ -5,7 +5,9 @@ import serial
 import aioconsole
 import asyncio
 
-stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
+# stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
+stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
+
 
 root = Tk()
 root.title("Chess")
@@ -62,14 +64,18 @@ board = Board()
 
 # async wait for console input
 async def getConsoleInput():
-    move = str(input("User move"))
-    return [move]
+    # move = str(input("User move"))
+    stockfish.make_moves_from_current_position([str(input('Input a move: '))])
+    # return [move]
 
 
 async def playGame():
-    board.draw()
-    stockfish.make_moves_from_current_position(await getConsoleInput())
-    root.mainloop()
+    while(1):
+        board.draw()
+        root.update()
+        await getConsoleInput()
+    # stockfish.make_moves_from_current_position(await getConsoleInput())
+        root.update()
     return
 
 
