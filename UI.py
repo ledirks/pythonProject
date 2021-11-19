@@ -46,6 +46,12 @@ def player_hint():
 
     message.set("Here you go nerd " + stockfish.get_best_move())
 
+def player_reset():
+    global game_over
+    stockfish.set_position()
+    game_over = False
+
+
 forfeitButton = Button(buttonFrame, text="Forfeit", width=15, height=5, bg="black", fg="white", command=player_forfeit)
 hintButton = Button(buttonFrame, text="Hint", width=15, height = 5, bg="black", fg = "white", command=player_hint)
 resetButton = Button(buttonFrame, text="Reset Board", width=15, height = 5, bg="black", fg = "white")
