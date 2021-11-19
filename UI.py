@@ -5,8 +5,8 @@ import serial
 import aioconsole
 import asyncio
 
-# stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
-stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
+stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
+#stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
 
 game_over = False
 
@@ -52,8 +52,10 @@ forfeitButton.pack(side = LEFT)
 
 # async wait for console input
 async def getConsoleInput():
-    # move = str(input("User move"))
-    stockfish.make_moves_from_current_position([str(input('Input a move: '))])
+    move = str(input("User move: "))
+    if (stockfish.is_move_correct(move)):
+        stockfish.make_moves_from_current_position([str(move)])
+        stockfish.make_moves_from_current_position([str(stockfish.get_best_move())])
     # return [move]
 
 
