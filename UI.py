@@ -57,10 +57,19 @@ forfeitButton.pack(side = LEFT)
 
 # async wait for console input
 async def getConsoleInput():
+    global game_over
+    move = stockfish.get_best_move()
+    if str(move) == 'None':
+        message.set("Black wins")
+        game_over = True
     move = str(input("User move: "))
     if (stockfish.is_move_correct(move)):
         stockfish.make_moves_from_current_position([str(move)])
-        stockfish.make_moves_from_current_position([str(stockfish.get_best_move())])
+        move = stockfish.get_best_move()
+        if str(move) == 'None':
+            message.set("White wins")
+            game_over = True
+        stockfish.make_moves_from_current_position([str(move)])
     # return [move]
 
 
