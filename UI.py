@@ -58,6 +58,7 @@ async def getConsoleInput():
     if str(move) == 'None':
         message.set("Black wins")
         game_over = True
+        return
     move = str(input("User move: "))
     if (stockfish.is_move_correct(move)):
         stockfish.make_moves_from_current_position([str(move)])
@@ -65,7 +66,10 @@ async def getConsoleInput():
         if str(move) == 'None':
             message.set("White wins")
             game_over = True
+            return
         stockfish.make_moves_from_current_position([str(move)])
+    else:
+        message.set("Bad move numbnuts")
     # return [move]
 
 
