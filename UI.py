@@ -5,15 +5,16 @@ import serial
 import aioconsole
 import asyncio
 
-stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
-#stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
+#stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
+stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
 
 game_over = False
 
 root = Tk()
 root.title("Chess")
 message = StringVar()
-showInfo = Label(root, textvariable=StringVar)
+showInfo = Label(root, textvariable=message)
+message.set("No hint for now ┏(-_-)┛")
 buttonFrame = Frame(root)
 buttonFrame.pack(side = BOTTOM)
 showInfo.pack(side = BOTTOM)
@@ -27,7 +28,6 @@ class Board:
 
 
     def draw(self):
-
         self.board.delete('1.0', END)
         self.board.insert('1.0', "  A   B   C   D   E   F   G   H\n")
         self.board.insert('1.0', stockfish.get_board_visual())
@@ -36,14 +36,18 @@ class Board:
 
 board = Board()
 
-def player_quit():
+def player_forfeit():
     print('\n╭∩╮(° ͜ʖ͡°)╭∩╮ you lose ╭∩╮(° ͜ʖ͡°)╭∩╮')
     global game_over
     game_over = True
     forfeitButton["state"] = "disabled"
 
-forfeitButton = Button(buttonFrame, text="Forfeit", width=15, height=5, bg="black", fg="white", command=player_quit)
-hintButton = Button(buttonFrame, text="Hint", width=15, height = 5, bg="black", fg = "white")
+def player_hint():
+
+    message.set("Here you go nerd " + stockfish.get_best_move())
+
+forfeitButton = Button(buttonFrame, text="Forfeit", width=15, height=5, bg="black", fg="white", command=player_forfeit)
+hintButton = Button(buttonFrame, text="Hint", width=15, height = 5, bg="black", fg = "white", command=player_hint)
 resetButton = Button(buttonFrame, text="Reset Board", width=15, height = 5, bg="black", fg = "white")
 hintButton.pack(side = LEFT)
 resetButton.pack(side = LEFT)
