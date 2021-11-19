@@ -8,56 +8,44 @@ import asyncio
 # stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
 stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
 
+game_over = False
 
 root = Tk()
 root.title("Chess")
+showInfo = Label(root, text="balls")
 buttonFrame = Frame(root)
 buttonFrame.pack(side = BOTTOM)
+showInfo.pack(side = BOTTOM)
 
 class Board:
     board: Text
 
     def __init__(self):
-        self.board = Text(root, width=50, height=25)
+        self.board = Text(root, width=45, height=20)
+        self.board.tag_configure("center")
 
-    # def canvas_onclick(self, event):
-    #     self.canvas.itemconfig(
-    #         self.text_id, 
-    #         text="You clicked at ({}, {})".format(event.x, event.y)
-    #     )
-    #     print("Balls")
 
     def draw(self):
-        # self.canvas.move(self.id, 0, -1)
-        # self.canvas.after(10, self.draw)  #(time_delay, method_to_execute)
 
-        # infinitely print board without blocking other input
-        # self.board.pack(side=LEFT)
         self.board.delete('1.0', END)
         self.board.insert('1.0', "  A   B   C   D   E   F   G   H\n")
         self.board.insert('1.0', stockfish.get_board_visual())
         self.board.pack(side=TOP)
-        self.board.after(1000, self.draw)
 
 
 board = Board()
 
+def player_quit():
+    print('\n╭∩╮(° ͜ʖ͡°)╭∩╮ you lose ╭∩╮(° ͜ʖ͡°)╭∩╮')
+    global game_over
+    game_over = True
+    forfeitButton["state"] = "disabled"
 
-# def displayBoard():
-#     board.insert('1.0', "  A   B   C   D   E   F   G   H\n")
-#     board.insert('1.0', stockfish.get_board_visual())
-
-#     root.update()
-
-
-forfeitButton = Button(buttonFrame, text="Forfeit", width=25, height=5, bg="black", fg="white")
-hintButton = Button(buttonFrame, text="Hint", width=25, height = 5, bg="black", fg = "white")
-undoButton = Button(buttonFrame, text="Undo Last Move", width=25, height = 5, bg="black", fg = "white")
-# makeMoveButton = Button(text="Make Move", width=25, height = 5, bg = "black", fg="white")
-# entry1 = Entry(root )
-# board.pack(side=LEFT)
+forfeitButton = Button(buttonFrame, text="Forfeit", width=15, height=5, bg="black", fg="white", command=player_quit)
+hintButton = Button(buttonFrame, text="Hint", width=15, height = 5, bg="black", fg = "white")
+resetButton = Button(buttonFrame, text="Reset Board", width=15, height = 5, bg="black", fg = "white")
 hintButton.pack(side = LEFT)
-undoButton.pack(side = LEFT)
+resetButton.pack(side = LEFT)
 forfeitButton.pack(side = LEFT)
 
 
@@ -70,12 +58,16 @@ async def getConsoleInput():
 
 
 async def playGame():
-    while(1):
+    global game_over
+    while(not game_over):
         board.draw()
         root.update()
         await getConsoleInput()
     # stockfish.make_moves_from_current_position(await getConsoleInput())
         root.update()
+    # if the game is over just display the screen still
+    # TODO need to have a way to start a new game at some point
+    root.mainloop()
     return
 
 
