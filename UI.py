@@ -11,7 +11,8 @@ stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\sto
 
 root = Tk()
 root.title("Chess")
-
+buttonFrame = Frame(root)
+buttonFrame.pack(side = BOTTOM)
 
 class Board:
     board: Text
@@ -35,7 +36,7 @@ class Board:
         self.board.delete('1.0', END)
         self.board.insert('1.0', "  A   B   C   D   E   F   G   H\n")
         self.board.insert('1.0', stockfish.get_board_visual())
-        self.board.grid(row=0, column=0)
+        self.board.pack(side=TOP)
         self.board.after(1000, self.draw)
 
 
@@ -49,17 +50,16 @@ board = Board()
 #     root.update()
 
 
-# forfeitButton = Button(text="Forfeit", width=25, height=5, bg="black", fg="white")
-# hintButton = Button(text="Hint", width=25, height = 5, bg="black", fg = "white")
-# undoButton = Button(text="Undo Last Move", width=25, height = 5, bg="black", fg = "white")
+forfeitButton = Button(buttonFrame, text="Forfeit", width=25, height=5, bg="black", fg="white")
+hintButton = Button(buttonFrame, text="Hint", width=25, height = 5, bg="black", fg = "white")
+undoButton = Button(buttonFrame, text="Undo Last Move", width=25, height = 5, bg="black", fg = "white")
 # makeMoveButton = Button(text="Make Move", width=25, height = 5, bg = "black", fg="white")
 # entry1 = Entry(root )
 # board.pack(side=LEFT)
-# hintButton.pack()
-# undoButton.pack()
-# forfeitButton.pack()
-# makeMoveButton.pack()
-# entry1.pack()
+hintButton.pack(side = LEFT)
+undoButton.pack(side = LEFT)
+forfeitButton.pack(side = LEFT)
+
 
 
 # async wait for console input
