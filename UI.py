@@ -1,3 +1,4 @@
+import time
 from tkinter import *
 import tkinter
 from stockfish import Stockfish
@@ -5,8 +6,8 @@ import serial
 import aioconsole
 import asyncio
 
-# stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
-stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
+stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
+#stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
 
 
 root = Tk()
@@ -37,7 +38,7 @@ class Board:
         self.board.insert('1.0', "  A   B   C   D   E   F   G   H\n")
         self.board.insert('1.0', stockfish.get_board_visual())
         self.board.pack(side=TOP)
-        self.board.after(1000, self.draw)
+        #self.board.after(1000, self.draw)
 
 
 board = Board()
@@ -65,7 +66,18 @@ forfeitButton.pack(side = LEFT)
 # async wait for console input
 async def getConsoleInput():
     # move = str(input("User move"))
-    stockfish.make_moves_from_current_position([str(input('Input a move: '))])
+    move = (input('Input a move: '))
+    if stockfish.is_move_correct(move):
+        stockfish.make_moves_from_current_position([str(move)])
+        stockfish.make_moves_from_current_position([str(stockfish.get_best_move())])
+
+
+
+
+
+
+    #stockfish.make_moves_from_current_position([str(input('Input a move: '))])
+    #stockfish.make_moves_from_current_position([str(stockfish.get_best_move())])
     # return [move]
 
 
@@ -74,6 +86,7 @@ async def playGame():
         board.draw()
         root.update()
         await getConsoleInput()
+        time.sleep(1)
     # stockfish.make_moves_from_current_position(await getConsoleInput())
         root.update()
     return
