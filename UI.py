@@ -48,7 +48,7 @@ def player_hint():
 
 def player_reset():
     global game_over
-    stockfish.set_position()
+    stockfish.set_position([])
     game_over = False
 
 
