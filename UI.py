@@ -24,7 +24,6 @@ class Board:
 
     def __init__(self):
         self.board = Text(root, width=45, height=20)
-        self.board.tag_configure("center")
 
 
     def draw(self):
@@ -41,6 +40,7 @@ def player_forfeit():
     global game_over
     game_over = True
     forfeitButton["state"] = "disabled"
+    message.set("╭∩╮(° ͜ʖ͡°)╭∩╮ you lose ╭∩╮(° ͜ʖ͡°)╭∩╮")
 
 def player_hint():
 
@@ -50,11 +50,13 @@ def player_reset():
     global game_over
     stockfish.set_position([])
     game_over = False
+    board.draw()
+    root.update()
 
 
 forfeitButton = Button(buttonFrame, text="Forfeit", width=15, height=5, bg="black", fg="white", command=player_forfeit)
 hintButton = Button(buttonFrame, text="Hint", width=15, height = 5, bg="black", fg = "white", command=player_hint)
-resetButton = Button(buttonFrame, text="Reset Board", width=15, height = 5, bg="black", fg = "white")
+resetButton = Button(buttonFrame, text="Reset Board", width=15, height = 5, bg="black", fg = "white", command=player_reset)
 hintButton.pack(side = LEFT)
 resetButton.pack(side = LEFT)
 forfeitButton.pack(side = LEFT)
