@@ -1,12 +1,11 @@
 from tkinter import *
-import tkinter
 from stockfish import Stockfish
 import serial
 import aioconsole
 import asyncio
-
-#stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
-stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
+from PIL import ImageTk, Image
+stockfish = Stockfish("/usr/local/Cellar/stockfish/14/bin/stockfish")
+#stockfish = Stockfish(r"C:\Users\david\Downloads\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2\stockfish_14.1_win_x64_avx2.exe")
 
 game_over = False
 
@@ -18,6 +17,8 @@ message.set("No hint for now ┏(-_-)┛")
 buttonFrame = Frame(root)
 buttonFrame.pack(side = BOTTOM)
 showInfo.pack(side = BOTTOM)
+img = ImageTk.PhotoImage(Image.open("deez.png"))
+
 
 class Board:
     board: Text
@@ -57,9 +58,11 @@ def player_reset():
 forfeitButton = Button(buttonFrame, text="Forfeit", width=15, height=5, bg="black", fg="white", command=player_forfeit)
 hintButton = Button(buttonFrame, text="Hint", width=15, height = 5, bg="black", fg = "white", command=player_hint)
 resetButton = Button(buttonFrame, text="Reset Board", width=15, height = 5, bg="black", fg = "white", command=player_reset)
+panel = Label(image = img)
 hintButton.pack(side = LEFT)
 resetButton.pack(side = LEFT)
 forfeitButton.pack(side = LEFT)
+panel.pack(side = LEFT)
 
 
 
